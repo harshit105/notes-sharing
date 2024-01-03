@@ -24,11 +24,9 @@ class NotesService:
             note = mongo.db.notes.find_one({'_id': note_id_obj, 'username': current_user})
             if note:
                 note['_id'] = str(note['_id'])
-                response = jsonify({'notes': note}).data
-                return response, 200
+                return jsonify({'notes': note}).data, 200
             else:
-                response = jsonify({'msg': 'Note not found'}).data
-                return response, 404
+                return jsonify({'message': 'Note not found or does not belong to the user'}).data, 404
         except Exception as e:
             response = jsonify({'msg': 'Internal Server Error'}).data
             return response, 500
