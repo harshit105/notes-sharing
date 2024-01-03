@@ -8,9 +8,13 @@ class NotesService:
     def get_notes(current_user):
         try:
             user_notes = list(mongo.db.notes.find({'username': current_user}))
-            for note in user_notes:
+            print(user_notes)
+            shared_notes = list(mongo.db.notes.find({'shared_with': current_user}))
+            print(shared_notes)
+            all_notes = user_notes+shared_notes
+            for note in all_notes:
                 note['_id'] = str(note['_id'])
-            return jsonify({'notes': user_notes}).data,200
+            return jsonify({'notes': all_notes}).data,200
         except Exception as e:
             print(e)
             response = jsonify({'msg': 'Internal Server Error'}).data
@@ -20,7 +24,7 @@ class NotesService:
     def get_note_by_id(current_user, note_id):
         note_id_obj = ObjectId(note_id)
         try:
-            note = mongo.db.notes.find_one({'_id': note_id_obj, 'username': current_user})
+            note = mongo.db.notes.find_one({'_id': note_id_obj, 'username': current_user}) or mongo.db.notes.find_one({'_id':note_id_obj,'shared_with':current_user})
             if note:
                 note['_id'] = str(note['_id'])
                 return jsonify({'notes': note}).data, 200
