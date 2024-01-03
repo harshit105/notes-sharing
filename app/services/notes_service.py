@@ -59,11 +59,16 @@ class NotesService:
                 response=jsonify({'message': 'Can\'t update to empty note'}).data
                 return response,500
             else:
-                mongo.db.notes.update_one({'_id': note_id, 'username': current_user}, {'$set': updated_data})
-                response=jsonify({'message': 'Note updated successfully'}).data
-                status=200
-                return response,status
+                updated_note = {
+                    'content': updated_data.get('content')
+                }
+                result = mongo.db.notes.update_one({'_id': note_id, 'username': current_user}, {'$set': updated_note})
+                if result.modified_count > 0:
+                    return jsonify({'message': 'Note updated successfully'}).data, 200
+                else:
+                    return jsonify({'message': 'Note not found or does not belong to the user or no updates'}).data, 404
         except Exception as e:
+            print(e)
             response = jsonify({'msg': 'Internal Server Error'}).data
             return response, 500
 
