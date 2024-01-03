@@ -10,10 +10,9 @@ class NotesService:
             user_notes = list(mongo.db.notes.find({'username': current_user}))
             for note in user_notes:
                 note['_id'] = str(note['_id'])
-            response=jsonify({'notes': user_notes}).data
-            status=200
-            return response,status
+            return jsonify({'notes': user_notes}).data,200
         except Exception as e:
+            print(e)
             response = jsonify({'msg': 'Internal Server Error'}).data
             return response, 500
 
@@ -28,6 +27,7 @@ class NotesService:
             else:
                 return jsonify({'message': 'Note not found or does not belong to the user'}).data, 404
         except Exception as e:
+            print(e)
             response = jsonify({'msg': 'Internal Server Error'}).data
             return response, 500
 
@@ -47,8 +47,8 @@ class NotesService:
                 response=jsonify({'message': 'Note created successfully', 'note_id':str(result.inserted_id)}).data
                 return response,200
         except Exception as e:
-            response = jsonify({'msg': 'Internal Server Error'}).data
-            return response, 500
+            print(e)
+            return jsonify({'msg': 'Internal Server Error'}).data, 500
 
 
     def update_note(current_user, note_id, updated_data):
@@ -67,16 +67,16 @@ class NotesService:
                     return jsonify({'message': 'Note not found or does not belong to the user or no updates'}).data, 404
         except Exception as e:
             print(e)
-            response = jsonify({'msg': 'Internal Server Error'}).data
-            return response, 500
+            return jsonify({'msg': 'Internal Server Error'}).data, 500
 
 
     def delete_note(current_user, note_id):
         try:
-            mongo.db.notes.delete_one({'_id': note_id, 'username': current_user})
-            response=jsonify({'message': 'Note deleted successfully'}).data
-            status=200
-            return response,status
+            result = mongo.db.notes.delete_one({'_id': note_id, 'username': current_user})
+            if result.deleted_count > 0:
+                return jsonify({'message': 'Note deleted successfully'}).data, 200
+            else:
+                return jsonify({'message': 'Note not found or does not belong to the user'}).data, 404
         except Exception as e:
-            response = jsonify({'msg': 'Internal Server Error'}).data
-            return response, 500
+            print(e)
+            return jsonify({'msg': 'Internal Server Error'}).data, 500
