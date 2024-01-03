@@ -18,4 +18,4 @@ app.json_encoder = CustomJSONEncoder
 
 # MongoDB configuration
 mongo = MongoClient(app.config['MONGO_URI'])
-from app.routes import auth, notes
+from app.routes import auth, notes, search

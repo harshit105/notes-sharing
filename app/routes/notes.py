@@ -53,6 +53,7 @@ def delete_note_route(note_id):
 
 @app.route('/api/notes/<ObjectId:note_id>/share', methods=['POST'])
 @jwt_required()
+@cross_origin()
 def share_note_with_user(note_id):
     current_user = get_jwt_identity()
     target_user = request.json.get('target_user')

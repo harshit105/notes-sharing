@@ -4,7 +4,6 @@ from ..custom_converters import CustomJSONEncoder
 from bson import ObjectId
 
 class NotesService:
-
     def get_notes(current_user):
         try:
             user_notes = list(mongo.db.notes.find({'username': current_user}))
@@ -119,4 +118,23 @@ class NotesService:
 
         except Exception as e:
             print(e)
-            return jsonify({'message': 'Internal Server Error'}), 500
+            return jsonify({'message': 'Internal Server Error'}).data, 500
+
+
+    def search_notes(current_user, query):
+        try:
+            mongo.db.notes.create_index([('content', 'text')])
+            cursor = mongo.db.notes.find(
+                {
+                    '$and': [
+                        {'$or': [{'username': current_user}, {'shared_with': current_user}]},
+                        {'$text': {'$search': query}}
+                    ]
+                },
+                {'score': {'$meta': 'textScore'}}
+            ).sort([('score', {'$meta': 'textScore'})])
+            search_results = [{'_id': str(note['_id']), 'score': note['score'],'content':note['content'],'username':note['username']} for note in cursor]
+            return jsonify({'search_result':search_results}).data,200
+        except ArithmeticError as e:
+            print(e)
+            return jsonify({'message': 'Internal Server Error'}).data, 500
