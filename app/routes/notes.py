@@ -50,3 +50,12 @@ def delete_note_route(note_id):
     response, status =  NotesService.delete_note(current_user, note_id)
     response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
     return response
+
+@app.route('/api/notes/<ObjectId:note_id>/share', methods=['POST'])
+@jwt_required()
+def share_note_with_user(note_id):
+    current_user = get_jwt_identity()
+    target_user = request.json.get('target_user')
+    response, status =  NotesService.share_note(current_user,target_user,note_id)
+    response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
+    return response

@@ -80,3 +80,39 @@ class NotesService:
         except Exception as e:
             print(e)
             return jsonify({'msg': 'Internal Server Error'}).data, 500
+
+
+    def share_note(current_user, target_user, note_id):
+        try:
+            print(f'target user :  {target_user}')
+            # Validate that the target user is provided in the request
+            if not target_user:
+                return jsonify({'message': 'Target user not provided'}).data, 400
+
+            # Check if the note exists and belongs to the authenticated user
+            note = mongo.db.notes.find_one({'_id': note_id, 'username': current_user})
+            print(f'note of current user :  {note}')
+            print(f'{not note}')
+            if not note:
+                return jsonify({'message': 'Note not found or does not belong to the user'}).data, 404
+
+            # Check if the target user exists
+            target_user_doc = mongo.db.users.find_one({'username': target_user})
+            print(f'target user doc : {target_user_doc}')
+            if not target_user_doc:
+                return jsonify({'message': 'Target user not found'}).data, 404
+
+            # Check if the note is already shared with the target user
+            if target_user in note.get('shared_with', []):
+                return jsonify({'message': f'Note is already shared with {target_user}'}).data, 200
+
+            # Update the note's 'shared_with' field
+            mongo.db.notes.update_one(
+                {'_id': ObjectId(note_id), 'username':current_user},
+                {'$push': {'shared_with': target_user}}
+            )
+            return jsonify({'message': f'Note shared with {target_user}'}).data, 200
+
+        except Exception as e:
+            print(e)
+            return jsonify({'message': 'Internal Server Error'}), 500
