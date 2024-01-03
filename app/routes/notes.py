@@ -10,11 +10,7 @@ from flask_cors import cross_origin
 def get_notes_route():
     current_user = get_jwt_identity()
     response, status = NotesService.get_notes(current_user)
-    response = Response(
-            response=response,
-            status=status,
-            headers={'Content-Type': 'application/json'}
-        )
+    response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
     return response
 
 @app.route('/api/notes/<ObjectId:note_id>', methods=['GET'])
@@ -23,11 +19,7 @@ def get_notes_route():
 def get_note_by_id_route(note_id):
     current_user = get_jwt_identity()
     response,status =  NotesService.get_note_by_id(current_user, note_id)
-    response = Response(
-            response=response,
-            status=status,
-            headers={'Content-Type': 'application/json'}
-        )
+    response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
     return response
 
 @app.route('/api/notes', methods=['POST'])
@@ -37,11 +29,7 @@ def create_note_route():
     current_user = get_jwt_identity()
     note_data = request.get_json()
     response,status =  NotesService.create_note(current_user, note_data)
-    response = Response(
-            response=response,
-            status=status,
-            headers={'Content-Type': 'application/json'}
-        )
+    response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
     return response
 
 @app.route('/api/notes/<ObjectId:note_id>', methods=['PUT'])
@@ -51,11 +39,7 @@ def update_note_route(note_id):
     current_user = get_jwt_identity()
     updated_data = request.get_json()
     response,status =  NotesService.update_note(current_user, note_id, updated_data)
-    response = Response(
-            response=response,
-            status=status,
-            headers={'Content-Type': 'application/json'}
-        )
+    response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
     return response
 
 @app.route('/api/notes/<ObjectId:note_id>', methods=['DELETE'])
@@ -64,9 +48,5 @@ def update_note_route(note_id):
 def delete_note_route(note_id):
     current_user = get_jwt_identity()
     response, status =  NotesService.delete_note(current_user, note_id)
-    response = Response(
-            response=response,
-            status=status,
-            headers={'Content-Type': 'application/json'}
-        )
+    response = Response(response=response,status=status,headers={'Content-Type': 'application/json'})
     return response
