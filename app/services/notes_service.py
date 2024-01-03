@@ -40,9 +40,13 @@ class NotesService:
                 response=jsonify({'message': 'Can\'t create empty note'}).data
                 return response,500
             else:
-                new_note = {'username': current_user, 'content': note_data.get('content')}
-                mongo.db.notes.insert_one(new_note)
-                response=jsonify({'message': 'Note created successfully'}).data
+                new_note = {
+                    'username': current_user,
+                    'content': note_data.get('content'),
+                    'shared_with': []  # Initialize 'shared_with' as an empty list for a new note
+                }
+                result = mongo.db.notes.insert_one(new_note)
+                response=jsonify({'message': 'Note created successfully', 'note_id':str(result.inserted_id)}).data
                 return response,200
         except Exception as e:
             response = jsonify({'msg': 'Internal Server Error'}).data
