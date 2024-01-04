@@ -40,6 +40,6 @@ This project aims to build a secure and scalable RESTful API for managing notes.
     ```
  - Build and run docker image
     ```
-    docker build -t shared-notes .
-    docket compose up
+    docker build --no-cache -t shared-notes .
+    docker-compose up
     ```
