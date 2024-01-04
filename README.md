@@ -43,3 +43,4 @@ This project aims to build a secure and scalable RESTful API for managing notes.
     docker build --no-cache -t shared-notes .
     docker-compose up
     ```
+ - Download resource/notes-sharing.postmal_collection.json file for api documentation
