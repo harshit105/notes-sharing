@@ -11,7 +11,7 @@ app.config.from_pyfile('../config.py')
 jwt = JWTManager(app)
 
 # Api limitter, IP Address based
-limiter = Limiter(get_remote_address, app=app)
+limiter = Limiter(get_remote_address, app=app, storage_uri=app.config['REDIS_URI_FOR_RATELIMIT'])
 
 # Enable CORS for all routes
 CORS(app, resources={r'/api/*': {'origins': '*'}})
