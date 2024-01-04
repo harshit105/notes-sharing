@@ -8,12 +8,13 @@
 # Project Overview
 This project aims to build a secure and scalable RESTful API for managing notes. Users can perform CRUD operations on their notes, share notes with other users, and search for notes based on keywords. The application focuses on security, scalability, and efficient search functionality.
 
-## Technical Requirements
+## Technical Requirements and Reasoning
 - **Framework:** Implemented using Flask, a micro web framework for Python, known for its simplicity and flexibility.
 - **Database:** MongoDB is chosen as the database becasue of flexible schema design.
 - **Authentication:** Implemented using JWT (JSON Web Tokens) for secure user authentication. Easily available with flask framework
 - **Rate Limiting and Throttling:** Implemented using Flask-Limiter and gunicorn to control and limit the rate of incoming requests.
 - **Search Functionality:** Utilizes text indexing in mongo for high-performance search functionality, enhancing the efficiency of note searches.
+- **Docker:** To containerize the application for minimum setup and avoid version conflicts.
 
 ## API Endpoints
 
