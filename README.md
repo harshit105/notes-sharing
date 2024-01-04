@@ -26,14 +26,14 @@ This project aims to build a secure and scalable RESTful API for managing notes.
 - **POST /api/notes/:id/share:** Share a note with another user for the authenticated user.
 - **GET /api/search?q=:query:** Search for notes based on keywords for the authenticated user.
 
-# Status/Features
+## Status/Features
 - [x] API endpoint
 - [x] JWT Authentication for user
 - [x] Rate limit and Throttling
 - [x] Readme with setup instruction
 - [ ] Tests
 
-## Setup
+# Setup
  - Clone Repository
     ```
     git clone git@github.com:harshit105/notes-sharing.git
