@@ -42,7 +42,7 @@ class NotesService:
                 new_note = {
                     'username': current_user,
                     'content': note_data.get('content'),
-                    'shared_with': []  # Initialize 'shared_with' as an empty list for a new note
+                    'shared_with': []
                 }
                 result = mongo.db.notes.insert_one(new_note)
                 response=jsonify({'message': 'Note created successfully', 'note_id':str(result.inserted_id)}).data
@@ -88,6 +88,9 @@ class NotesService:
             # Validate that the target user is provided in the request
             if not target_user:
                 return jsonify({'message': 'Target user not provided'}).data, 400
+
+            if target_user == current_user:
+                return jsonify({'message': "Can't share with yourself"}).data, 400
 
             # Check if the note exists and belongs to the authenticated user
             note = mongo.db.notes.find_one({'_id': note_id, 'username': current_user})

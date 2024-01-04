@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5001:5000"  # Map port 5000 inside the container to port 5000 on the host
+    depends_on:
+      - redis
+      - mongo
+
+  redis:
+    image: "redis:alpine"
+
+  mongo:
+    image: "mongo:latest"
