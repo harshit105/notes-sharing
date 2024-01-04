@@ -1,10 +1,3 @@
-# Status/Features
-- [x] API endpoint
-- [x] JWT Authentication for user
-- [x] Rate limit and Throttling
-- [x] Readme with setup instruction
-- [ ] Tests
-
 # Project Overview
 This project aims to build a secure and scalable RESTful API for managing notes. Users can perform CRUD operations on their notes, share notes with other users, and search for notes based on keywords. The application focuses on security, scalability, and efficient search functionality.
 
@@ -32,6 +25,13 @@ This project aims to build a secure and scalable RESTful API for managing notes.
 - **DELETE /api/notes/:id:** Delete a note by ID for the authenticated user.
 - **POST /api/notes/:id/share:** Share a note with another user for the authenticated user.
 - **GET /api/search?q=:query:** Search for notes based on keywords for the authenticated user.
+
+# Status/Features
+- [x] API endpoint
+- [x] JWT Authentication for user
+- [x] Rate limit and Throttling
+- [x] Readme with setup instruction
+- [ ] Tests
 
 ## Setup
  - Clone Repository
