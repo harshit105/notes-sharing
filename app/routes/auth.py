@@ -1,9 +1,10 @@
 from flask import request, jsonify, Response
-from app import app
+from app import app, limiter
 from app.services.auth_service import AuthService
 from flask_cors import cross_origin
 
 @app.route('/api/auth/signup', methods=['POST'])
+@limiter.limit('5 per minute')
 @cross_origin()
 def signup_route():
     data = request.get_json()
@@ -14,6 +15,7 @@ def signup_route():
 
 @app.route('/api/auth/login', methods=['POST'])
 @cross_origin()
+@limiter.limit('5 per minute')
 def login_route():
     data = request.get_json()
     username = data.get('username')
