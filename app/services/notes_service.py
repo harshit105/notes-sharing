@@ -132,6 +132,6 @@ class NotesService:
             ).sort([('score', {'$meta': 'textScore'})])
             search_results = [{'_id': str(note['_id']), 'score': note['score'],'content':note['content'],'username':note['username']} for note in cursor]
             return jsonify({'search_result':search_results}).data,200
-        except ArithmeticError as e:
+        except Exception as e:
             print(e)
             return jsonify({'message': 'Internal Server Error'}).data, 500
